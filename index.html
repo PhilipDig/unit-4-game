@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta content="initial-scale=1, shrink-to-fit=no, width=device-width" name="viewport">
+
+    <!-- CSS -->
+    <!-- Add Material font (Roboto) and Material icon as needed -->
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,500,500i,700,700i|Roboto+Mono:300,400,700|Roboto+Slab:300,400,700" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+    <!-- Add Material CSS, replace Bootstrap CSS -->
+    <link href="css/material.min.css" rel="stylesheet">
+
+    <style>
+    
+    h1,h2,h3 {
+
+        text-align: center
+    }
+
+    .crystal_img {
+
+        max-width: 140px;
+        max-height: 180px;
+    }
+    </style>
+  </head>
+  <body>
+
+    <div class="container">
+
+            <h1>Magic Crystal Game</h1>
+
+            <h4>Each crystal represents a different random number of points.</h4>
+        
+            <h4>The goal of this game is to click crystals carefully to get your score equal to the target score without going over!</h4>
+        
+            <div class="row">
+
+                <div class="col-4">
+
+                    <h2>Target Score</h2>
+
+                    <h2 id="target_score"></h2>
+
+                </div>
+
+                <div class="col-4">
+
+                    <h2>Your Score</h2>
+
+                    <h2 id="user_score"></h2>
+
+                </div>
+
+                <div class="col-4">
+
+                    <h3>wins</h3>
+
+                    <h3 id="wins">0</h3>                    
+    
+                    <h3>loses</h3>
+
+                    <h3 id="loses">0</h3>
+    
+                </div>
+
+            </div>
+
+            <div class="row">
+
+                <div class="col-12" align="center">
+
+                        <button id="button1"><img src="assets/crystal.png" alt="Crystal" class="crystal_img"></button>
+                        <button id="button2"><img src="assets/crystal.png" alt="Crystal" class="crystal_img"></button>
+                        <button id="button3"><img src="assets/crystal.png" alt="Crystal" class="crystal_img"></button>
+                        <button id="button4"><img src="assets/crystal.png" alt="Crystal" class="crystal_img"></button>
+                </div>
+            </div>
+            
+        
+
+    </div>
+    
+    
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+
+    <!-- Then Material JavaScript on top of Bootstrap JavaScript -->
+    <script src="js/material.min.js"></script>
+
+    <!-- My own script to power this game!  -->
+    <script>
+    
+    let CrystalGame = {
+
+        init: function() {
+
+            let wins = 0
+            let loses = 0
+            let userScore = 0
+            let targetScore = 0
+            let buttonOneValue = 0
+            let buttonTwoValue = 0
+            let buttonThreeValue = 0
+            let buttonFourValue = 0
+
+            function updateWins() {
+
+                $("#wins").text(wins.toString())
+            }
+
+            function updateLoses() {
+
+                $("#loses").text(loses.toString())
+            }
+
+            function updateUserScore() {
+
+                $("#user_score").text(userScore.toString())
+            }
+
+            function updateTargetScore() {
+
+                $("#target_score").text(targetScore.toString())
+            }
+
+            function checkWinLose() {
+
+                if (userScore === targetScore) {
+
+                    wins++
+                    updateWins()
+                    alert("You won this round!\nPress OK to play again.")
+                    newRound()
+
+                } else if (userScore > targetScore) {
+                    
+                    loses++
+                    updateLoses()
+                    alert("You lost this round ...\nPress OK to play again.")
+                    newRound()
+                }
+            }
+
+            function newRound() {
+
+                // Provides button value between 1-12
+                function randomButtonValue() {
+
+                    return (Math.floor(Math.random() * 11) + 1)
+                }
+
+                buttonOneValue = randomButtonValue()
+                buttonTwoValue = randomButtonValue()
+                buttonThreeValue = randomButtonValue()
+                buttonFourValue = randomButtonValue()
+
+                // Provides random target score between 19-120
+                targetScore = Math.floor(Math.random() * 101) + 19
+
+                // Reset user score
+                userScore = 0
+
+                updateUserScore()
+                updateTargetScore()
+            }
+
+            newRound()
+
+            $("#button1").on("click",function(){
+
+                userScore += buttonOneValue
+                updateUserScore()
+                checkWinLose()
+            })
+
+            $("#button2").on("click",function(){
+
+                userScore += buttonTwoValue
+                updateUserScore()
+                checkWinLose()
+            })
+
+            $("#button3").on("click",function(){
+
+                userScore += buttonThreeValue
+                updateUserScore()
+                checkWinLose()
+            })
+
+            $("#button4").on("click",function(){
+
+                userScore += buttonFourValue
+                updateUserScore()
+                checkWinLose()
+            })
+
+        }
+    }
+
+    CrystalGame.init()
+    
+    </script>
+  </body>
+</html>
